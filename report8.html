@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OneTest</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    <style>
+        body {
+            padding-top: 70px;
+            background-color: #f8f9fa;
+        }
+        .nav-link img {
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+        }
+        .nav-link.active img {
+            transform: scale(1.2); /* Slightly enlarges the icon when active */
+        }
+        .hidden {
+            display: none;
+        }
+        .table-style {
+            width: 100%;
+            margin: 20px 0;
+            background: #fff;
+            border-collapse: collapse;
+            border-spacing: 0;
+            border: 1px solid #ddd;
+        }
+        .table-style thead {
+            background: #f4f4f4;
+        }
+        .table-style thead th {
+            padding: 10px;
+            font-size: 14px;
+            color: #333;
+            text-transform: uppercase;
+            border-bottom: 1px solid #ddd;
+        }
+        .table-style tbody tr:nth-child(odd) {
+            background-color: #f9f9f9;
+        }
+        .table-style tbody tr:nth-child(even) {
+            background-color: #fff;
+        }
+        .table-style tbody td {
+            padding: 12px;
+            font-size: 13px;
+            color: #333;
+            text-align: center;
+        }
+        .delete-icon {
+            cursor: pointer;
+            color: red;
+        }
+        footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #343a40;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header and Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <a class="navbar-brand" href="#">
+            <img src="https://cdn-icons.flaticon.com/512/17907/17907878.gif" alt="OneTest" width="30" height="30">
+
+            OneTest
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="activateTab(this, 'create')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8138/8138351.png" data-color="https://cdn-icons-png.flaticon.com/512/8377/8377219.png" data-bw="https://cdn-icons-png.flaticon.com/512/8138/8138351.png" alt="Create Icon"> Create
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="activateTab(this, 'testcase')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/8420/8420028.png" data-color="https://cdn-icons-png.flaticon.com/512/8422/8422335.png" data-bw="https://cdn-icons-png.flaticon.com/512/8420/8420028.png" alt="Testcase Icon"> Testcase
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="activateTab(this, 'execute')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/5261/5261124.png" data-color="https://cdn-icons-png.flaticon.com/512/5261/5261334.png" data-bw="https://cdn-icons-png.flaticon.com/512/5261/5261124.png" alt="Execute Icon"> Execute
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="activateTab(this, 'user-settings')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/2717/2717595.png" data-color="https://cdn-icons-png.flaticon.com/512/3685/3685367.png" data-bw="https://cdn-icons-png.flaticon.com/512/2717/2717595.png" alt="User Settings Icon"> User Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" onclick="activateTab(this, 'system-settings')">
+                        <img src="https://cdn-icons-png.flaticon.com/512/3067/3067451.png" data-color="https://cdn-icons-png.flaticon.com/512/3067/3067513.png" data-bw="https://cdn-icons-png.flaticon.com/512/3067/3067451.png" alt="System Settings Icon"> System Settings
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Create Page -->
+    <div class="container mt-4 hidden" id="create">
+        <h3>Create</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <label for="source">Source</label>
+                <select id="source" class="form-control">
+                    <option value="" disabled selected>Select Source</option>
+                    <option>CSV</option>
+                    <option>PSV</option>
+                    <option>TXT</option>
+                    <option>FIXEDWIDTH</option>
+                    <option>FIXEDLENGTH</option>
+                    <option>XML</option>
+                    <option>JSON</option>
+                    <option>MAINFRAME</option>
+                    <option>DEL</option>
+                    <option>AVRO</option>
+                    <option>PARQUET</option>
+                    <option>MARKER</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label for="target">Target</label>
+                <select id="target" class="form-control">
+                    <option value="" disabled selected>Select Target</option>
+                    <option>CSV</option>
+                    <option>PSV</option>
+                    <option>TXT</option>
+                    <option>FIXEDWIDTH</option>
+                    <option>FIXEDLENGTH</option>
+                    <option>XML</option>
+                    <option>JSON</option>
+                    <option>MAINFRAME</option>
+                    <option>DEL</option>
+                    <option>AVRO</option>
+                    <option>PARQUET</option>
+                    <option>MARKER</option>
+                </select>
+            </div>
+        </div>
+        <div id="dynamic-section" class="row mt-4">
+            <div class="col-md-6">
+                <h5>Source Details</h5>
+                <div id="source-fields"></div>
+            </div>
+            <div class="col-md-6">
+                <h5>Target Details</h5>
+                <div id="target-fields"></div>
+            </div>
+        </div>
+        <div class="mt-4">
+            <button id="reset-button" class="btn btn-secondary">Reset</button>
+            <button id="add-button" class="btn btn-primary">Add</button>
+        </div>
+    </div>
+
+    <!-- Success Popup -->
+    <div id="successPopup" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="successPopupLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="successPopupLabel">Success</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Testcase added successfully!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" data-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Testcase Page -->
+    <div class="container mt-4 hidden" id="testcase">
+        <h3>Testcase</h3>
+        <table class="table-style">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Testcase ID</th>
+                    <th>Source</th>
+                    <th>Target</th>
+                    <th>Source Filepath</th>
+                    <th>Source Copybook</th>
+                    <th>Source Parameters</th>
+                    <th>Target Filepath</th>
+                    <th>Target Copybook</th>
+                    <th>Target Parameters</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="results-table"></tbody>
+        </table>
+    </div>
+
+    <!-- Execute Page -->
+    <div class="container mt-4 hidden" id="execute">
+        <h3>Execute</h3>
+        <div class="form-group">
+            <label for="execution-file">Select File to Execute:</label>
+            <input type="file" class="form-control-file" id="execution-file">
+        </div>
+        <div class="form-group">
+            <label for="execution-options">Execution Options:</label>
+            <select class="form-control" id="execution-options">
+                <option value="" disabled selected>Select Option</option>
+                <option>Run All</option>
+                <option>Run Selected</option>
+                <option>Debug Mode</option>
+            </select>
+        </div>
+        <button class="btn btn-primary">Start Execution</button>
+    </div>
+
+    <!-- System Settings Page -->
+    <div class="container mt-4 hidden" id="system-settings">
+        <h3>System Settings</h3>
+        <form id="system-settings-form">
+            <div class="form-group">
+                <label for="host-name">Host Name</label>
+                <input type="text" class="form-control" id="host-name" placeholder="Enter Host Name">
+            </div>
+            <div class="form-group">
+                <label for="port">Port</label>
+                <input type="number" class="form-control" id="port" placeholder="Enter Port">
+            </div>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" class="form-control" id="username" placeholder="Enter Username">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" class="form-control" id="password" placeholder="Enter Password">
+            </div>
+            <button type="button" class="btn btn-primary" onclick="saveSettings()">Save</button>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        &copy; 2024 OneTest. All rights reserved.
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function activateTab(element, pageId) {
+            document.querySelectorAll('.nav-link').forEach(tab => {
+                tab.classList.remove('active');
+                const img = tab.querySelector('img');
+                if (img) {
+                    img.src = img.getAttribute('data-bw'); // Set to BW icon
+                }
+            });
+
+            element.classList.add('active');
+            const activeImg = element.querySelector('img');
+            if (activeImg) {
+                activeImg.src = activeImg.getAttribute('data-color'); // Set to color icon
+            }
+
+            showPage(pageId);
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.container').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageId).classList.remove('hidden');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const defaultTab = document.querySelector('.nav-link');
+            activateTab(defaultTab, 'create');
+        });
+
+        const sourceSelect = document.getElementById('source');
+        const targetSelect = document.getElementById('target');
+        const sourceFields = document.getElementById('source-fields');
+        const targetFields = document.getElementById('target-fields');
+        const resultsTable = document.getElementById('results-table');
+        const resetButton = document.getElementById('reset-button');
+        const addButton = document.getElementById('add-button');
+        let testcaseID = 1;
+
+        function createFields(selection, container) {
+            container.innerHTML = '';
+            if (['CSV', 'PSV', 'TXT', 'AVRO', 'PARQUET', 'MARKER'].includes(selection)) {
+                container.innerHTML = `
+                    <div class="form-group">
+                        <label for="${container.id}-filePath">FilePath</label>
+                        <input type="text" class="form-control" id="${container.id}-filePath" placeholder="Enter FilePath">
+                    </div>`;
+            } else if (['FIXEDWIDTH', 'FIXEDLENGTH', 'XML', 'JSON', 'DEL'].includes(selection)) {
+                container.innerHTML = `
+                    <div class="form-group">
+                        <label for="${container.id}-filePath">FilePath</label>
+                        <input type="text" class="form-control" id="${container.id}-filePath" placeholder="Enter FilePath">
+                    </div>
+                    <div class="form-group">
+                        <label for="${container.id}-copybook">Copybook</label>
+                        <input type="text" class="form-control" id="${container.id}-copybook" placeholder="Enter Copybook">
+                    </div>
+                    <div class="form-group">
+                        <label for="${container.id}-parameters">Parameters</label>
+                        <input type="text" class="form-control" id="${container.id}-parameters" placeholder="Enter Parameters">
+                    </div>`;
+            }
+        }
+
+        sourceSelect.addEventListener('change', (e) => createFields(e.target.value, sourceFields));
+        targetSelect.addEventListener('change', (e) => createFields(e.target.value, targetFields));
+
+        resetButton.addEventListener('click', () => {
+            sourceSelect.value = '';
+            targetSelect.value = '';
+            sourceFields.innerHTML = '';
+            targetFields.innerHTML = '';
+        });
+
+        addButton.addEventListener('click', () => {
+            const source = sourceSelect.value;
+            const target = targetSelect.value;
+            const sourceFilepath = document.getElementById('source-fields-filePath')?.value || '';
+            const sourceCopybook = document.getElementById('source-fields-copybook')?.value || '';
+            const sourceParameters = document.getElementById('source-fields-parameters')?.value || '';
+            const targetFilepath = document.getElementById('target-fields-filePath')?.value || '';
+            const targetCopybook = document.getElementById('target-fields-copybook')?.value || '';
+            const targetParameters = document.getElementById('target-fields-parameters')?.value || '';
+
+            const newRow = `
+                <tr>
+                    <td><input type="checkbox"></td>
+                    <td>${testcaseID++}</td>
+                    <td>${source || ''}</td>
+                    <td>${target || ''}</td>
+                    <td>${sourceFilepath || ''}</td>
+                    <td>${sourceCopybook || ''}</td>
+                    <td>${sourceParameters || ''}</td>
+                    <td>${targetFilepath || ''}</td>
+                    <td>${targetCopybook || ''}</td>
+                    <td>${targetParameters || ''}</td>
+                    <td><span class="delete-icon" onclick="deleteRow(this)">&#128465;</span></td>
+                </tr>`;
+            resultsTable.innerHTML += newRow;
+
+            resetButton.click();
+            $('#successPopup').modal('show'); // Show success popup
+        });
+
+        function deleteRow(deleteIcon) {
+            const row = deleteIcon.closest('tr');
+            row.remove();
+        }
+
+        function saveSettings() {
+            const hostName = document.getElementById('host-name').value;
+            const port = document.getElementById('port').value;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            alert(`Settings Saved:\nHost Name: ${hostName}\nPort: ${port}\nUsername: ${username}`);
+        }
+    </script>
+</body>
+</html>
