@@ -1,0 +1,87 @@
+.container {
+    text-align: left;
+    margin-left: 0;
+    font-size: 15px;
+}
+
+/* Reduce button size */
+.btn {
+    font-size: 12px; /* Adjust text size */
+    padding: 5px 10px; /* Adjust padding */
+}
+
+/* Reduce list box size */
+select {
+    font-size: 12px; /* Smaller text */
+    height: 30px; /* Reduce height */
+    padding: 5px; /* Reduce padding */
+}
+
+h1 {
+    font-size: 1.5rem !important;
+}
+h5 {
+    font-size: 0.9rem !important;
+}
+
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+    width: 100px;
+}
+
+/* Reduce button size and text size */
+button.add-card-btn, .btn-danger, .btn-secondary, .btn-primary, .btn-dark {
+    font-size: 10px !important; /* Reduce text size */
+    padding: 6px 12px !important; /* Reduce button size */
+    border-radius: 4px !important; /* Slightly smaller corner radius */
+}
+
+button.add-card-btn {
+    background-color: #007bff; /* Blue button background */
+    color: white;
+    border: none;
+}
+
+button.add-card-btn:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.btn-danger {
+    background-color: white; /* White background */
+    color: red; /* Red text */
+    border: 1px solid red;
+}
+
+.btn-danger:hover {
+    background-color: red; /* Red background on hover */
+    color: white; /* White text on hover */
+}
+
+/* Reduce the font size for labels */
+.container label {
+    font-size: 12px; /* Reduce label font size */
+}
+
+/* Reduce font size and size of input fields (textboxes) */
+.container input[type="text"], 
+.container select {
+    font-size: 12px; /* Reduce text size inside textboxes and dropdowns */
+    padding: 6px 10px; /* Adjust padding to make inputs smaller */
+    height: 28px; /* Reduce overall height */
+    border-radius: 4px; /* Adjust corner radius if needed */
+}
+
+/* Adjust font size for headings */
+.container h5 {
+    font-size: 16px; /* Reduce size for headings like 'Source Details' */
+    margin-bottom: 10px;
+}
+
+/* Adjust the checkboxes and text alignment */
+.container .form-check-label {
+    font-size: 12px; /* Reduce font size for checkbox labels */
+    margin-left: 5px; /* Adjust spacing for better alignment */
+}
+

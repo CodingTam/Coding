@@ -1,0 +1,128 @@
+.dataTable {
+    font-size: 12px; /* Reduce the font size for the table */
+    width: 100%; /* Ensure the table spans its container */
+}
+
+.dataTable th, .dataTable td {
+    padding: 5px; /* Reduce padding for a more compact look */
+    text-align: center;
+    vertical-align: middle; /* Ensure vertical alignment remains centered */
+}
+
+.dataTable thead th {
+    background-color: #f4f4f4;
+    color: #333;
+    font-size: 12px; /* Smaller font size for headers */
+    text-transform: uppercase;
+    border-bottom: 1px solid #ddd;
+}
+
+.dataTable tbody tr:nth-child(odd) {
+    background-color: #f9f9f9;
+}
+
+.dataTable tbody tr:nth-child(even) {
+    background-color: #fff;
+}
+
+.dataTable tbody tr:hover {
+    background-color: #e2e2e2; /* Add a subtle hover effect */
+}
+
+/* Pagination and search input */
+.dataTables_wrapper .dataTables_filter input {
+    font-size: 12px;
+    padding: 5px;
+    width: 100px; /* Adjust input width */
+}
+
+.dataTables_wrapper .dataTables_length select {
+    font-size: 12px;
+    padding: 5px;
+    width: 50px; /* Adjust dropdown width */
+}
+
+
+.tooltip-text {
+    visibility: hidden;
+    position: absolute;
+    z-index: 1;
+    width: 100px;
+    color: white;
+    background-color: #192733;
+    padding: 5px;
+  }
+  
+  .hover-text:hover .tooltip-text {
+    visibility: visible;
+  }
+  
+  .top {
+    top: -40px;
+    left: -50%;
+  }
+  
+  .bottom {
+    top: 25px;
+    left: -50%;
+  }
+  
+  .left {
+    top: -8px;
+    right: 120%;
+  }
+  
+  .right {
+    top: -8px;
+    left: 120%;
+  }
+  
+  .hover-text {
+    position: relative;
+    display: inline-block;
+    margin: 40px;
+    text-align: center;
+  }
+  
+
+  .tooltip-container {
+    position: relative; /* Necessary for positioning the tooltip-box */
+    display: inline-block; /* Keeps the container as small as its content */
+    cursor: pointer; /* Indicate interactivity */
+}
+
+
+.tooltip-box1212 {
+    position: absolute;
+    background-color: #333;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    z-index: 1000;
+    max-width: 300px; /* Limit width */
+    white-space: normal; /* Allow text wrapping */
+    word-wrap: break-word; /* Handle long words */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    display: none; /* Initially hidden */
+}
+
+.tooltip-box {
+  position: fixed;
+  background-color: #333;
+  color: white;
+  padding: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  font-size: 14px;
+  z-index: 1000;
+  max-width: 200px;
+  white-space: pre-wrap; /* Preserve line breaks and indentation */
+  font-family: "Courier New", Courier, monospace; /* Monospace font for JSON */
+  display: none; /* Initially hidden */
+  overflow-wrap: break-word; /* Prevent long words from breaking layout */
+}
+
+.tooltip-container:hover .tooltip-box {
+    display: block; /* Show the tooltip when hovered */
+}

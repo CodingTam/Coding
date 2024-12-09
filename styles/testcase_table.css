@@ -1,0 +1,42 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+.container {
+    width: 100%;
+    max-width: 1200px; /* Set maximum width for alignment */
+    margin: 0 auto; /* Center container horizontally */
+    padding: 20px;
+    box-sizing: border-box; /* Include padding in total width */
+}
+
+.table-style_old {
+    margin: 0 auto; /* Center the table */
+    max-width: 100%; /* Ensure table does not exceed parent width */
+    word-wrap: break-word; /* Prevent overflow for long text */
+    table-layout: fixed; /* Ensure consistent column width */
+}
+
+.table-style_old {
+    width: 100%; /* Take up full width of the parent container */
+}
+
+.table-style_old {
+    overflow-x: auto; /* Add horizontal scrolling if necessary */
+    display: block; /* Allow scrollbars to appear if the table is too wide */
+}
+
+
+.hidden {
+    display: none !important; /* Ensure it completely hides the element */
+    visibility: hidden; /* Ensure it's invisible */
+}
+
+.testcase-container {
+    display: block;
+    margin: 0 auto;
+    max-width: 90%; /* Ensure it doesn't overflow */
+}

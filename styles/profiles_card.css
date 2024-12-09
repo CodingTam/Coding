@@ -1,0 +1,115 @@
+body {
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+
+.add-card-btn_old {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.add-card-btn_old {
+    display: block;
+    margin: 10px auto;
+    /* Center the button at the top */
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    padding: 10px;
+    position: relative;
+    padding-bottom: 50px;
+    /* Space for the button */
+}
+.delete-card {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #dc3545;
+    font-size: 15px;
+}
+
+.delete-card:hover {
+    color: #a71d2a;
+}
+
+.card-title {
+    text-align: center;
+    font-size: 1.0rem;
+    margin-bottom: 10px;
+}
+
+.card-title input {
+    text-align: center;
+    font-size: 1.5rem;
+    border: none;
+    border-bottom: 1px solid #ddd;
+    outline: none;
+    width: 80%;
+    padding: 5px;
+}
+
+.button-save {
+    background-color: #28a745;
+    color: white;
+    display: none;
+    /* Default to hidden until Edit is clicked */
+}
+
+.button-edit {
+    background-color: #007bff;
+    color: white;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+.button-group {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.button-group button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

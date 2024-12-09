@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>OneTest</title>
+    <link href="styles/style.css" rel="stylesheet" type="text/css" />
+    <link href="styles/main_style.css" rel="stylesheet" type="text/css" />
+    <!-- <link rel="stylesheet"  type="text/css"  href="styles/testcase_tablea.css" /> -->
+    <link href="styles/table.css" rel="stylesheet" type="text/css" />
+    <link href="styles/profiles_card.css" rel="stylesheet" type="text/css" />
+    <link href="styles/utilities.css" rel="stylesheet" type="text/css" />
+    <link href="styles/notificaion.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" />
+</head>
+
+<body>
+    <!-- Notification Icon -->
+    <div class="header-bar">
+        <span class="header-title"></span>
+        <div class="header-icons">
+            <span id="username">Logged in as User</span>
+            <div class="notification-container">
+                <div class="notification-icon" onclick="toggleNotificationWindow()">
+                    <img alt="Bell Icon" class="icon" src="https://cdn-icons-png.flaticon.com/512/1156/1156949.png" />
+                    <span id="notification-badge">0</span>
+                </div>
+                <div class="notification-window hidden" id="notification-window">
+                    <h5>Notifications</h5>
+                    <ul id="notification-list"></ul>
+                    <button class="clear-notifications" onclick="clearNotifications()">Clear All</button>
+                </div>
+            </div>
+            <img alt="Settings" class="icon" src="https://cdn-icons-png.flaticon.com/512/10614/10614640.png" />
+        </div>
+    </div>
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+        <!-- Hamburger Icon -->
+        <div class="hamburger" onclick="toggleSidebar()">
+            <img alt="Menu" class="hamburger-icon" src="https://cdn-icons-png.flaticon.com/512/7915/7915462.png" />
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+        <br />
+        <!-- Header -->
+        <h2 id="header" onclick="activateTab(this, 'main')">OneTest</h2>
+        <!-- Menu Items -->
+        <a onclick="activateTab(this, 'workflow')">
+            <img alt="Feature 1 Icon" src="https://cdn-icons-png.flaticon.com/512/3247/3247281.png" />
+            <span>Dashboard</span>
+        </a>
+        <h2 class="group-header" data-group="new-group" onclick="toggleGroup('new-group')">
+            <img alt="Group Icon" class="icon-style" src="https://cdn-icons-png.flaticon.com/512/16036/16036346.png" />
+            <span>Executions</span>
+        </h2>
+        <div class="menu" id="new-group">
+            <a onclick="activateTab(this, 'profile')">
+                <img alt="Feature 2 Icon" src="https://cdn-icons-png.flaticon.com/512/3786/3786673.png" />
+                <span> Profile</span>
+            </a>
+            <a onclick="activateTab(this, 'create')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/8377/8377219.png" />
+                <span>Create</span>
+            </a>
+            <a onclick="activateTab(this, 'testcase')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/8422/8422335.png" />
+                <span>Testcase</span>
+            </a>
+            <a onclick="activateTab(this, 'trigger')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/6577/6577171.png" />
+                <span>Trigger</span>
+            </a>
+            <a onclick="activateTab(this, 'execute')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/5261/5261334.png" />
+                <span>Execute</span>
+            </a>
+            <a onclick="activateTab(this, 'schedule')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/735/735783.png" />
+                <span>Scheduler</span>
+            </a>
+            <a onclick="activateTab(this, 'monitor')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/6950/6950193.png" />
+                <span>Monitor</span>
+            </a>
+        </div>
+        <!-- New Group -->
+        <h2 class="group-header" data-group="new-group1" onclick="toggleGroup('new-group1')">
+            <img alt="Group Icon" class="icon-style" src="https://cdn-icons-png.flaticon.com/512/12095/12095013.png" />
+            <span>Utilities</span>
+        </h2>
+        <div class="menu" id="new-group1">
+            <a onclick="activateTab(this, 'utilities')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/3822/3822520.png" />
+                <span>Comparison</span>
+            </a>
+            <a onclick="activateTab(this, 'converters')">
+                <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/8970/8970989.png" />
+                <span>Converter</span>
+            </a>
+        </div>
+        <a onclick="activateTab(this, 'system_settings')">
+            <img alt="Feature 3 Icon" src="https://cdn-icons-png.flaticon.com/512/3067/3067513.png" />
+            <span>System Settings</span>
+        </a>
+        <a class="logout" href="logout.html">
+            <img alt="Logout Icon" src="https://cdn-icons-png.flaticon.com/512/4043/4043198.png" />
+            <span>Logout</span>
+        </a>
+    </div>
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Main Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="main">
+            <h1>Welcome to OneTest!</h1>
+            <p>Select a feature from the sidebar to begin.</p>
+        </div>
+        <!-- Workflow Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="workflow">
+            <h1>Workflow Section!</h1>
+            <p>Select a feature from the sidebar to begin.</p>
+        </div>
+        <!-- Profile Page -->
+        <div class="container mt-4 hidden" id="profile">
+            <h1>Profile Section</h1>
+            <p>Here's your profile section.</p>
+            <button class="add-card-btn" id="addCardBtn" onclick="addNewCard()" type="button">
+                Add New Profile
+            </button>
+            <button class="btn-danger" onclick="clearProfileData()">Clear All</button>
+            <div class="card-container" id="cardContainer"></div>
+
+        </div>
+        <!-- Create Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="create">
+            <h1>Create Content</h1>
+            <p>Start creating new content!</p>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="testcase-name">
+                        Testcase Name
+                    </label>
+                    <input class="form-control form-control-sm" id="testcase-name" placeholder="Enter Testcase Name"
+                        type="text" />
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label for="profile">
+                        Profile
+                    </label>
+                    <select class="form-control form-control-sm" id="profile">
+                        <option disabled selected value="">Select Profile</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-12">
+                    <label for="executor">
+                        Executor
+                    </label>
+                    <select class="form-control form-control-sm" id="executor">
+                        <option disabled="" selected="" value="">
+                            Select Executor
+                        </option>
+                        <option>
+                            Python 2.7
+                        </option>
+                        <option>
+                            Python 3.8.17
+                        </option>
+                        <option>
+                            Pyspark3
+                        </option>
+                        <option>
+                            Shell
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col-md-6">
+                    <label for="source">
+                        Source
+                    </label>
+                    <select class="form-control form-control-sm" id="source">
+                        <option disabled="" selected="" value="">
+                            Select Source
+                        </option>
+                        <option>
+                            CSV
+                        </option>
+                        <option>
+                            PSV
+                        </option>
+                        <option>
+                            TXT
+                        </option>
+                        <option>
+                            FIXEDWIDTH
+                        </option>
+                        <option>
+                            FIXEDLENGTH
+                        </option>
+                        <option>
+                            XML
+                        </option>
+                        <option>
+                            JSON
+                        </option>
+                        <option>
+                            MAINFRAME
+                        </option>
+                        <option>
+                            DEL
+                        </option>
+                        <option>
+                            AVRO
+                        </option>
+                        <option>
+                            PARQUET
+                        </option>
+                        <option>
+                            MARKER
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="target">
+                        Target
+                    </label>
+                    <select class="form-control form-control-sm" id="target">
+                        <option disabled="" selected="" value="">
+                            Select Target
+                        </option>
+                        <option>
+                            CSV
+                        </option>
+                        <option>
+                            PSV
+                        </option>
+                        <option>
+                            TXT
+                        </option>
+                        <option>
+                            FIXEDWIDTH
+                        </option>
+                        <option>
+                            FIXEDLENGTH
+                        </option>
+                        <option>
+                            XML
+                        </option>
+                        <option>
+                            JSON
+                        </option>
+                        <option>
+                            MAINFRAME
+                        </option>
+                        <option>
+                            DEL
+                        </option>
+                        <option>
+                            AVRO
+                        </option>
+                        <option>
+                            PARQUET
+                        </option>
+                        <option>
+                            MARKER
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row mt-4" id="dynamic-section">
+                <div class="col-md-6">
+                    <h5>
+                        Source Details
+                    </h5>
+                    <div id="source-fields">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h5>
+                        Target Details
+                    </h5>
+                    <div id="target-fields">
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-4">
+                <div class="col-md-12">
+                    <h5>Validation Options</h5>
+                    <div class="d-flex justify-content-between" id="validation-options">
+                        <div class="form-check">
+                            <input class="form-check-input" id="allValidation" onchange="toggleAllCheckboxes(this)"
+                                type="checkbox" />
+                            <label class="form-check-label" for="allValidation">All</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="validation-checkbox" id="schemaValidation" type="checkbox" />
+                            <label class="form-check-label" for="schemaValidation">Schema Validation</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="validation-checkbox" id="recordCount" type="checkbox" />
+                            <label class="form-check-label" for="recordCount">Record Count</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="validation-checkbox" id="hashMatch" type="checkbox" />
+                            <label class="form-check-label" for="hashMatch">Hash Match</label>
+                        </div>
+                        <div class="form-check">
+                            <input class="validation-checkbox" id="dataValidation" type="checkbox" />
+                            <label class="form-check-label" for="dataValidation">Data Validation</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <div class="col-md-12 text-center">
+                    <button class="btn btn btn-secondary btn-sm" id="reset-button">
+                        Reset
+                    </button>
+                    <button class="btn btn-primary btn-sm" id="add-button">
+                        Add
+                    </button>
+                    <button class="btn btn-dark" id="schedule-button">
+                        Schedule
+                    </button>
+                </div>
+            </div>
+
+        </div>
+        <!-- Testcase Page -->
+        <div class="container mt-4 hidden testcase-container text-left ml-0" id="testcase">
+            <h1>Testcase Management</h1>
+            <p>Manage your test cases here.</p>
+            <br /><br />
+            <!--
+        <table class="table-style">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Testcase ID</th>
+                    <th>Testcase Name</th>
+                    <th>Profile</th>
+                    <th>Executor</th>
+                    <th>Source</th>
+                    <th>Target</th>
+                    <th>Source Filepath</th>
+                    <th>Source Copybook</th>
+                    <th>Source Parameters</th>
+                    <th>Target Filepath</th>
+                    <th>Target Copybook</th>
+                    <th>Target Parameters</th>
+                    <th>All Validation</th>
+                    <th>Schema Validation</th>
+                    <th>Record Count</th>
+                    <th>Hash Match</th>
+                    <th>Data Validation</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="results-table1212">
+            </tbody>
+        </table>
+        -->
+            <table class="dataTable" id="example-table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Testcase ID</th>
+                        <th>Testcase Name</th>
+                        <th>Profile</th>
+                        <th>Executor</th>
+                        <th>Source</th>
+                        <th>Target</th>
+                        <th>Actions</th>
+                        <th>Additional Info</th>
+                    </tr>
+                </thead>
+                <tbody id="results-table">
+                </tbody>
+            </table>
+            <br /><br />
+            <center><button class="btn btn-danger" onclick="clearTestcaseData()">Clear All TestCase</button></center>
+        </div>
+        <!-- Trigger Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="trigger">
+            <h1>Triggers</h1>
+            <p>Set up triggers for automation.</p>
+            <button class="btn btn-primary mb-3" onclick="loadTriggerData()">Load Testcases</button>
+            <table class="table-style">
+                <thead>
+                    <tr>
+                        <th>Trigger</th>
+                        <th>Testcase Id</th>
+                        <th>Profile</th>
+                        <th>Executor</th>
+                        <th>Current Running Status</th>
+                    </tr>
+                </thead>
+                <tbody id="trigger-table-body">
+                    <!-- Rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+            <button class="btn btn-primary mt-3" onclick="triggerSelected()">Trigger</button>
+        </div>
+        <!-- Execute Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="execute">
+            <h1>Execute Plans</h1>
+            <p>Execute your plans here.</p>
+            <div class="form-group">
+                <label for="execution-file">
+                    Select File to Execute:
+                </label>
+                <input class="form-control-file" id="execution-file" type="file" />
+            </div>
+            <div class="form-group">
+                <label for="execution-options">
+                    Execution Options:
+                </label>
+                <select class="form-control" id="execution-options">
+                    <option disabled="" selected="" value="">
+                        Select Option
+                    </option>
+                    <option>
+                        Run All
+                    </option>
+                    <option>
+                        Run Selected
+                    </option>
+                    <option>
+                        Debug Mode
+                    </option>
+                </select>
+            </div>
+            <button class="btn btn-primary">
+                Start Execution
+            </button>
+        </div>
+        <!-- System Settings Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="system_settings">
+            <h1>System Settings</h1>
+            <p>Adjust your system settings.</p>
+            <table class="dataTable" id="example-table">
+                <thead>
+                    <tr>
+                        <th>Select</th>
+                        <th>Testcase ID</th>
+                        <th>Testcase Name</th>
+                        <th>Profile</th>
+                        <th>Executor</th>
+                        <th>Additional Info</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>1</td>
+                        <td>Testcase A</td>
+                        <td>Profile 1</td>
+                        <td>Executor 1</td>
+                        <td class="info-cell" data-info="This is additional info for Testcase A">Info</td>
+                    </tr>
+                    <tr>
+                        <td><input type="checkbox" /></td>
+                        <td>2</td>
+                        <td>Testcase B</td>
+                        <td>Profile 2</td>
+                        <td>Executor 2</td>
+                        <td class="info-cell" data-info="This is additional info for Testcase B">Info</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- Scheduling Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="schedule">
+            <h1>Schedule Testcases</h1>
+            <p>Adjust your system settings.</p>
+        </div>
+        <!-- Monitoring Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="monitor">
+            <h1>Monitor Testcases</h1>
+            <p>Adjust your system settings.</p>
+        </div>
+        <!-- Utilities Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="utilities">
+            <h1>Comparison</h1>
+            <p>Explore the utilities available....</p>
+            <div class="container_utilities">
+                <div class="file-container">
+                    <label class="custom-file-upload" for="fileInput1">Choose File</label>
+                    <input accept=".csv,.psv,.xml" hidden="" id="fileInput1" onchange="loadFile(1)" type="file" />
+                    <div class="content-box" id="file1" onscroll="syncScroll('file1')"></div>
+                </div>
+                <div class="file-container">
+                    <label class="custom-file-upload" for="fileInput2">Choose File</label>
+                    <input accept=".csv,.psv,.xml" hidden="" id="fileInput2" onchange="loadFile(2)" type="file" />
+                    <div class="content-box" id="file2" onscroll="syncScroll('file2')"></div>
+                </div>
+            </div>
+            <br />
+            <label for="keyColumn">Select Key Column: </label>
+            <select id="keyColumn" multiple="" size="5">
+                <option disabled="" selected="" value="">Load files to populate columns</option>
+            </select>
+            <!-- 
+            <select id="keyColumn" class="selectpicker" multiple data-live-search="true">
+                <option value="" disabled selected>Load files to populate columns</option>
+            </select>
+            -->
+            <!--
+            <div class="container_utilities">
+                <div class="file-container">
+                    <input type="file" id="fileInput1" accept=".csv,.psv,.xml" onchange="loadFile(1)">
+                    <div id="file1" class="content-box" onscroll="syncScroll('file1')"></div>
+                </div>
+                <div class="file-container">
+                    <input type="file" id="fileInput2" accept=".csv,.psv,.xml" onchange="loadFile(2)">
+                    <div id="file2" class="content-box" onscroll="syncScroll('file2')"></div>
+                </div>
+            </div>
+            <div class="center-buttons">
+                <label for="keyColumn">Select Key Column: </label>
+                <select id="keyColumn" multiple size="5">
+                    <option value="" disabled selected>Load files to populate columns</option>
+                </select>
+                
+                <button onclick="compareFiles()">Compare</button>
+                <button onclick="clearAll()">Clear All</button>
+                -->
+            <br /><br />
+            <button class="add-card-btn" id="addCardBtn" onclick="compareFiles()" type="button">Compare Data</button>
+            <button class="btn-danger" onclick="clearAll()">Clear All</button><br />
+            <div id="summary"></div>
+            <div class="table-container">
+                <h1>Data Mismatches</h1>
+                <table class="dataTable" id="mismatchTable">
+                    <thead>
+                        <tr id="mismatchHeader"></tr>
+                    </thead>
+                    <tbody id="mismatchBody"></tbody>
+                </table>
+                <h1>Missing Rows</h1>
+                <table class="dataTable" id="missingTable">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody id="missingBody"></tbody>
+                </table>
+            </div>
+            <br />
+            <!-- <button onclick="downloadHTMLReport()">Download Report</button> -->
+            <button class="add-card-btn" id="addCardBtn" onclick="downloadHTMLReport()" type="button">Download
+                Report</button>
+        </div>
+        <!-- Converter Page -->
+        <div class="container mt-4 hidden text-left ml-0" id="converters">
+            <h1>Converter Section!</h1>
+            <p>Select a feature from the sidebar to begin.</p>
+            <select class="selectpicker" data-live-search="true" multiple="">
+                <option>Mustard</option>
+                <option>Ketchup</option>
+                <option>Relish</option>
+            </select>
+        </div>
+    </div>
+    <!-- Scripts -->
+    <script src="scripts/script.js"></script>
+    <script src="scripts/localstorage.js"></script>
+    <script src="scripts/savedata.js"></script>
+    <script src="scripts/create.js"></script>
+    <script src="scripts/csv_compare.js"></script>
+    <script src="scripts/notificaion.js"></script>
+    <script src="scripts/profile.js"></script>
+    <script src="scripts/update_profiles_dropdown.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('.data-table').DataTable({
+                paging: true,
+                searching: true,
+                ordering: true,
+                responsive: true
+            });
+        });
+
+    </script>
+</body>
+
+</html>

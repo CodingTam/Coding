@@ -1,0 +1,311 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 200px;
+    background-color: #333;
+    color: white;
+    height: 100vh; /* Occupies the full height of the screen */
+    position: fixed;
+    transition: width 0.3s ease;
+    overflow-y: auto; /* Enables vertical scrolling if necessary */
+    overflow-x: hidden; /* Ensures horizontal scrolling doesn't occur */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
+    box-sizing: border-box; /* Includes padding within the height */
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar h2 {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Aligns content to the left */
+    padding: 15px 20px; /* Add padding for consistent spacing */
+    width: 100%; /* Ensures it takes the full width of the sidebar */
+    color: white;
+    font-size: 0.9rem;
+    margin: 0; /* Removes unnecessary margin */
+    transition: all 0.3s ease;
+    cursor: pointer; /* Keeps the pointer style for interactivity */
+}
+.sidebar.collapsed h2 {
+    font-size: 16px;
+    writing-mode: vertical-rl; /* Rotate text vertically */
+    transform: rotate(180deg); /* Reverse vertical text */
+}
+
+.sidebar a {
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    color: white;
+    text-decoration: none;
+    padding: 15px 20px;
+    width: 100%; /* Ensures the menu fills the sidebar */
+    border-bottom: 1px solid #444;
+    transition: padding 0.3s ease, justify-content 0.3s ease;
+}
+
+.sidebar.collapsed a {
+    justify-content: center;
+    padding: 15px 0;
+}
+
+.sidebar a img {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+    transition: margin 0.3s ease;
+}
+
+.sidebar.collapsed a img {
+    margin-right: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.sidebar a span {
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    font-size: 0.9rem;
+    
+}
+
+.sidebar.collapsed a span {
+    display: none;
+    
+}
+
+.sidebar a:hover {
+    background-color: #575757;
+}
+
+.hamburger {
+    position: relative;
+    top: 15px;
+    cursor: pointer;
+    width: 20px;
+    height: 20px;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.hamburger div {
+    width: 100%;
+    height: 5px;
+    background-color: #fff;
+    transition: background-color 0.3s ease;
+}
+
+.hamburger:hover div {
+    background-color: #575757;
+}
+
+/* Main content styles */
+.main-content {
+    margin-left: 250px;
+    padding: 20px;
+    flex-grow: 1;
+    transition: margin-left 0.3s ease;
+}
+
+.main-content.full {
+    margin-left: 80px;
+}
+.sidebar .logout {
+margin-top: auto; /* Pushes the logout button to the bottom */
+background-color: #444;
+text-align: center;
+padding: 15px 20px;
+width: 100%;
+color: white;
+text-decoration: none;
+border-top: 1px solid #555;
+transition: background-color 0.3s ease;
+}
+
+.sidebar .logout:hover {
+background-color: #575757;
+}
+
+.sidebar.collapsed .logout span {
+display: none;
+}
+
+.sidebar.collapsed .logout img {
+margin-right: 0;
+}
+.hidden {
+    display: none; /* Ensures hidden sections are not visible */
+}
+
+.sidebar a {
+    cursor: pointer; /* Ensures the mouse pointer shows as a pointer */
+    user-select: none; /* Prevents text selection */
+}
+
+.sidebar a:hover {
+    background-color: #575757; /* Optional: Highlight menu item on hover */
+}
+
+h2 {
+    cursor: pointer; /* Change to hand pointer when hovering over the header */
+    user-select: none; /* Prevent text selection on the header */
+}
+
+h2:hover {
+    color: #007bff; /* Optional: Change color on hover for better interaction feedback */
+}
+
+/* Added for sidebar testing */
+
+/* Hide text when sidebar is collapsed */
+.sidebar.collapsed h2 span,
+.sidebar.collapsed .menu a span {
+    display: none;
+}
+
+/* Ensure icons remain visible */
+.sidebar.collapsed h2 img,
+.sidebar.collapsed .menu a img {
+    margin-right: 0; /* Remove spacing to center the icon */
+}
+
+/* Style adjustments for group headers in collapsed mode */
+.sidebar.collapsed h2 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Ensure the group menu width matches the sidebar */
+.menu {
+    width: 100%; /* Match the sidebar width */
+    padding: 0;  /* Remove any padding causing misalignment */
+    margin: 0;   /* Remove any margin causing misalignment */
+}
+
+/* Ensure group menu items align properly */
+.menu a {
+    width: 100%; /* Ensure each menu item fills the available space */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Align text and icons properly */
+    padding: 15px 20px; /* Same padding as other menu items */
+    box-sizing: border-box; /* Include padding within width */
+}
+
+/* Handle collapsed state */
+.sidebar.collapsed .menu a {
+    justify-content: center; /* Center icons in collapsed mode */
+    padding: 15px 0;
+}
+
+.sidebar h2 img {
+    width: 20px !important; /* Set the width of the icons */
+    height: 20px !important; /* Set the height of the icons */
+    margin-right: 0px !important; /* Add spacing between the icon and the text */
+    transition: all 0.3s ease; /* Smooth resizing animation if necessary */
+}
+
+/* Adjust for collapsed state */
+.sidebar.collapsed h2 img {
+    margin-right: 0; /* Center the icon in collapsed mode */
+}
+
+/* Center the header text */
+.sidebar h2#header {
+    text-align: center; /* Center the text */
+    justify-content: center; /* Center align items in flexbox */
+    margin: 0 auto; /* Auto margin to ensure centering */
+    padding: 10px 0; /* Add spacing around the header */
+    width: 100%; /* Ensure it spans the full width */
+	font-size: 20px;
+
+}
+
+
+/* Highlight expanded group headers (excluding main header) */
+.sidebar h2.group-header.active {
+    background-color: #575757; /* Highlight background for active group */
+    color: #fff; /* Adjust text color for better visibility */
+    border-radius: 5px; /* Optional: Rounded corners */
+    padding: 10px 0; /* Add spacing around the header */
+}
+
+
+.sidebar h2.group-header img {
+    width: 24px;
+    height: 24px;
+    margin-right: 10px; /* Add consistent spacing between icon and text */
+}
+
+/* Ensure menu items within the group remain aligned */
+.sidebar .menu {
+    transition: display 0.3s ease;
+    /* padding-left: 30px; */
+}
+
+.sidebar .menu a {
+    padding-left: 20px; /* Additional padding for child links */
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .menu a img {
+    margin-right: 10px; /* Ensure icons align properly with the text */
+}
+
+/* Header bar styles */
+.header-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background-color: #333; /* Same as sidebar color */
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    z-index: 0;
+}
+
+.header-title {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.header-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-icons #username {
+    font-size: 14px;
+    color: white;
+}
+
+.header-icons .icon {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.header-icons .icon:hover {
+    transform: scale(1.1);
+}
+
