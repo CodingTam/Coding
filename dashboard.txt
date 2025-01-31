@@ -1,0 +1,288 @@
+import sys
+from PyQt5.QtWidgets import (QApplication, QMainWindow, QWidget, QVBoxLayout,
+                            QHBoxLayout, QLabel, QTableWidget, QTableWidgetItem,
+                            QPushButton, QFrame, QGridLayout, QSplitter, QComboBox)
+from PyQt5.QtCore import Qt
+import pyqtgraph as pg
+from datetime import datetime, timedelta
+import random  # For demo data, replace with actual data source
+
+
+class DashboardWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+        
+        # Initialize kpi_values dictionary before creating UI
+        self.kpi_values = {}
+        
+        self.setWindowTitle("System Monitoring Dashboard")
+        self.setGeometry(100, 100, 1600, 900)
+
+        # Create main widget and layout
+        main_widget = QWidget()
+        self.setCentralWidget(main_widget)
+        main_layout = QVBoxLayout(main_widget)
+
+        # Add application selector and refresh button in horizontal layout
+        top_controls = QHBoxLayout()
+        
+        # Application dropdown - MADE BIGGER with bigger text
+        self.app_selector = QComboBox()
+        self.app_selector.addItems(["All Applications", "App 1", "App 2", "App 3"])
+        self.app_selector.setStyleSheet("""
+            QComboBox {
+                padding: 12px;
+                font-size: 18px;
+                min-width: 300px;
+                min-height: 45px;
+            }
+            QComboBox::drop-down {
+                width: 30px;
+            }
+            QComboBox QAbstractItemView {
+                font-size: 18px;
+                padding: 8px;
+            }
+        """)
+        self.app_selector.currentTextChanged.connect(self.refresh_data)
+        top_controls.addWidget(self.app_selector)
+        
+        # Refresh button - MADE BIGGER with bigger text
+        refresh_btn = QPushButton("Refresh Dashboard")
+        refresh_btn.clicked.connect(self.refresh_data)
+        refresh_btn.setStyleSheet("""
+            QPushButton { 
+                padding: 12px 24px;
+                font-size: 18px;
+                min-height: 45px;
+                min-width: 200px;
+            }
+        """)
+        top_controls.addWidget(refresh_btn)
+        
+        top_controls.addStretch()
+        main_layout.addLayout(top_controls)
+
+        # Create horizontal splitter for main content
+        splitter = QSplitter(Qt.Horizontal)
+        main_layout.addWidget(splitter)
+
+        # Left side widget (KPIs and Charts)
+        left_widget = QWidget()
+        left_layout = QVBoxLayout(left_widget)
+        splitter.addWidget(left_widget)
+
+        # Create KPI section
+        kpi_frame = QFrame()
+        kpi_frame.setFrameStyle(QFrame.StyledPanel)
+        kpi_layout = QGridLayout(kpi_frame)
+        kpi_layout.setSpacing(20)
+
+        # Row 1 KPIs
+        self.create_metric_box(kpi_layout, 0, 0, "Login Metrics", 
+                             ["Today", "This Week", "Total"])
+        self.create_metric_box(kpi_layout, 0, 1, "Update Metrics",
+                             ["Today", "This Week", "Total"])
+        self.create_metric_box(kpi_layout, 0, 2, "Review Metrics",
+                             ["Today", "This Week", "Total"])
+
+        # Row 2 KPIs
+        self.create_metric_box(kpi_layout, 1, 0, "Review Status",
+                             ["Pending", "Rejected", "Approved", "In Table"],
+                             colspan=3)
+
+        left_layout.addWidget(kpi_frame)
+
+        # Create charts section
+        charts_widget = QWidget()
+        charts_layout = QVBoxLayout(charts_widget)
+        
+        # Login chart
+        login_plot = pg.PlotWidget()
+        login_plot.setBackground('w')
+        login_plot.setTitle("Login History", size="24pt")
+        login_plot.setLabel('left', 'Count', size="16pt")
+        login_plot.setLabel('bottom', 'Days', size="16pt")
+        self.login_curve = login_plot.plot(pen=pg.mkPen('b', width=3))
+        charts_layout.addWidget(login_plot)
+
+        # Updates chart
+        updates_plot = pg.PlotWidget()
+        updates_plot.setBackground('w')
+        updates_plot.setTitle("Update History", size="24pt")
+        updates_plot.setLabel('left', 'Count', size="16pt")
+        updates_plot.setLabel('bottom', 'Days', size="16pt")
+        self.updates_curve = updates_plot.plot(pen=pg.mkPen('r', width=3))
+        charts_layout.addWidget(updates_plot)
+
+        # Reviews chart
+        reviews_plot = pg.PlotWidget()
+        reviews_plot.setBackground('w')
+        reviews_plot.setTitle("Review History", size="24pt")
+        reviews_plot.setLabel('left', 'Count', size="16pt")
+        reviews_plot.setLabel('bottom', 'Days', size="16pt")
+        self.reviews_curve = reviews_plot.plot(pen=pg.mkPen('g', width=3))
+        charts_layout.addWidget(reviews_plot)
+        
+        left_layout.addWidget(charts_widget)
+
+        # Right side widget (Error Log Table)
+        right_widget = QWidget()
+        right_layout = QVBoxLayout(right_widget)
+        splitter.addWidget(right_widget)
+
+        # Error log label
+        error_label = QLabel("Error Log")
+        error_label.setStyleSheet("font-size: 24px; font-weight: bold; padding: 15px;")
+        right_layout.addWidget(error_label)
+
+        # Create error log table with bigger text
+        self.error_table = QTableWidget()
+        self.error_table.setColumnCount(4)
+        self.error_table.setHorizontalHeaderLabels(['Timestamp', 'Type', 'Description', 'Severity'])
+        self.error_table.setStyleSheet("""
+            QTableWidget {
+                gridline-color: #d3d3d3;
+                border: 1px solid #d3d3d3;
+                font-size: 16px;
+            }
+            QHeaderView::section {
+                background-color: #f0f0f0;
+                padding: 12px;
+                font-weight: bold;
+                border: 1px solid #d3d3d3;
+                font-size: 18px;
+            }
+            QTableWidget::item {
+                padding: 10px;
+            }
+        """)
+        self.error_table.verticalHeader().setDefaultSectionSize(50)  # Increase row height
+        right_layout.addWidget(self.error_table)
+
+        # Set initial splitter sizes
+        splitter.setSizes([1000, 600])
+        
+        # Initial data refresh
+        self.refresh_data()
+
+    def create_metric_box(self, layout, row, col, title, metrics, colspan=1):
+        """Create a single box containing multiple metrics"""
+        frame = QFrame()
+        frame.setFrameStyle(QFrame.Box | QFrame.Raised)
+        frame.setStyleSheet("""
+            QFrame {
+                background-color: white;
+                border-radius: 15px;
+                border: 2px solid #dee2e6;
+                padding: 15px;
+            }
+        """)
+        
+        box_layout = QVBoxLayout(frame)
+        
+        # Title
+        title_label = QLabel(title)
+        title_label.setStyleSheet("font-size: 22px; font-weight: bold; color: #495057; padding: 10px;")
+        box_layout.addWidget(title_label)
+        
+        # Grid for metrics
+        metrics_grid = QGridLayout()
+        metrics_grid.setSpacing(15)
+        
+        for i, metric in enumerate(metrics):
+            # Metric name
+            metric_label = QLabel(metric)
+            metric_label.setStyleSheet("color: #6c757d; font-size: 18px;")
+            metrics_grid.addWidget(metric_label, i, 0)
+            
+            # Metric value - MADE BIGGER
+            value_label = QLabel("0")
+            value_label.setStyleSheet("font-size: 28px; color: #0d6efd; font-weight: bold;")
+            metrics_grid.addWidget(value_label, i, 1)
+            
+            # Store reference to value label
+            key = f"{title.lower().replace(' ', '_')}_{metric.lower().replace(' ', '_')}"
+            self.kpi_values[key] = value_label
+        
+        box_layout.addLayout(metrics_grid)
+        layout.addWidget(frame, row, col, 1, colspan)
+
+    def refresh_data(self):
+        """Refresh all dashboard components with new data"""
+        selected_app = self.app_selector.currentText()
+        multiplier = 1 if selected_app == "All Applications" else 0.5
+        
+        # Demo data - replace with actual data source
+        data = {
+            'login_metrics': {
+                'today': int(random.randint(100, 1000) * multiplier),
+                'this_week': int(random.randint(1000, 5000) * multiplier),
+                'total': int(random.randint(10000, 50000) * multiplier)
+            },
+            'update_metrics': {
+                'today': int(random.randint(50, 500) * multiplier),
+                'this_week': int(random.randint(500, 2500) * multiplier),
+                'total': int(random.randint(5000, 25000) * multiplier)
+            },
+            'review_metrics': {
+                'today': int(random.randint(20, 200) * multiplier),
+                'this_week': int(random.randint(200, 1000) * multiplier),
+                'total': int(random.randint(2000, 10000) * multiplier)
+            },
+            'review_status': {
+                'pending': int(random.randint(10, 100) * multiplier),
+                'rejected': int(random.randint(5, 50) * multiplier),
+                'approved': int(random.randint(100, 500) * multiplier),
+                'in_table': int(random.randint(50, 200) * multiplier)
+            }
+        }
+
+        # Update KPIs
+        for category, metrics in data.items():
+            for metric, value in metrics.items():
+                widget_key = f"{category}_{metric}"
+                if widget_key in self.kpi_values:
+                    self.kpi_values[widget_key].setText(str(value))
+
+        # Update charts
+        x = list(range(30))
+        self.login_curve.setData(x, [int(random.randint(100, 1000) * multiplier) for _ in x])
+        self.updates_curve.setData(x, [int(random.randint(50, 500) * multiplier) for _ in x])
+        self.reviews_curve.setData(x, [int(random.randint(20, 200) * multiplier) for _ in x])
+
+        # Update error log table
+        errors = [
+            {
+                'timestamp': datetime.now() - timedelta(minutes=random.randint(1, 60)),
+                'type': random.choice(['Error', 'Warning', 'Critical']),
+                'description': f"Sample error in {selected_app if selected_app != 'All Applications' else 'App ' + str(random.randint(1,3))}",
+                'severity': random.choice(['High', 'Medium', 'Low'])
+            }
+            for _ in range(10)
+        ]
+
+        self.error_table.setRowCount(len(errors))
+        for i, error in enumerate(errors):
+            self.error_table.setItem(i, 0, QTableWidgetItem(error['timestamp'].strftime('%Y-%m-%d %H:%M:%S')))
+            self.error_table.setItem(i, 1, QTableWidgetItem(error['type']))
+            self.error_table.setItem(i, 2, QTableWidgetItem(error['description']))
+            severity_item = QTableWidgetItem(error['severity'])
+            if error['severity'] == 'High':
+                severity_item.setBackground(Qt.red)
+            elif error['severity'] == 'Medium':
+                severity_item.setBackground(Qt.yellow)
+            self.error_table.setItem(i, 3, severity_item)
+
+
+if __name__ == '__main__':
+    app = QApplication(sys.argv)
+    app.setStyle('Fusion')
+    window = DashboardWindow()
+    window.show()
+    sys.exit(app.exec_())
+
+
+
+
+
