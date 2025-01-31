@@ -1,0 +1,102 @@
+Here is the efficient PyQt5 code to generate a Job Monitoring Dashboard with KPI metrics, a table, and a progress chart.
+
+import sys
+import random
+from PyQt5.QtWidgets import (
+    QApplication, QMainWindow, QLabel, QVBoxLayout, QWidget,
+    QGridLayout, QTableWidget, QTableWidgetItem, QProgressBar
+)
+from PyQt5.QtGui import QFont
+from PyQt5.QtCore import Qt
+import pyqtgraph as pg
+
+
+class JobMonitoringDashboard(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("Job Monitoring Dashboard")
+        self.setGeometry(100, 100, 1000, 600)
+
+        self.central_widget = QWidget()
+        self.setCentralWidget(self.central_widget)
+
+        layout = QVBoxLayout()
+
+        # KPI Cards
+        kpi_layout = QGridLayout()
+        kpis = {
+            "Total Users": 342,
+            "Active Users (Last Week)": 189,
+            "Total Entries": 14523,
+            "Jobs Running": 5,
+            "Jobs Completed": 23,
+            "Jobs Failed": 2
+        }
+        row, col = 0, 0
+        for key, value in kpis.items():
+            label = QLabel(f"{key}\n{value}")
+            label.setFont(QFont("Arial", 14, QFont.Bold))
+            label.setAlignment(Qt.AlignCenter)
+            label.setStyleSheet("background-color: #3498db; color: white; padding: 10px; border-radius: 10px;")
+            kpi_layout.addWidget(label, row, col)
+            col += 1
+            if col == 3:
+                row += 1
+                col = 0
+
+        layout.addLayout(kpi_layout)
+
+        # Job Table
+        self.table = QTableWidget(5, 3)
+        self.table.setHorizontalHeaderLabels(["Job Name", "Status", "Progress"])
+        jobs = [
+            ["Data Ingestion", "Running", 50],
+            ["Data Cleaning", "Completed", 100],
+            ["Model Training", "Running", 30],
+            ["Report Generation", "Failed", 20],
+            ["ETL Pipeline", "Running", 70],
+        ]
+        for row, job in enumerate(jobs):
+            for col, value in enumerate(job):
+                if col == 2:
+                    progress = QProgressBar()
+                    progress.setValue(value)
+                    self.table.setCellWidget(row, col, progress)
+                else:
+                    self.table.setItem(row, col, QTableWidgetItem(str(value)))
+        layout.addWidget(self.table)
+
+        # Progress Chart
+        self.chart = pg.PlotWidget()
+        job_names = [job[0] for job in jobs]
+        progress_values = [job[2] for job in jobs]
+        self.chart.plot(progress_values, pen=pg.mkPen(color='b', width=3), symbol='o', symbolSize=10, symbolBrush='r')
+        self.chart.setTitle("Job Progress Overview", color="white")
+        self.chart.getAxis("bottom").setTicks([list(enumerate(job_names))])
+        layout.addWidget(self.chart)
+
+        self.central_widget.setLayout(layout)
+
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    window = JobMonitoringDashboard()
+    window.show()
+    sys.exit(app.exec_())
+
+Features:
+
+KPI Cards with metrics like total users, active users, and job stats.
+
+Table with Job Status and a progress bar.
+
+Graph (PyQtGraph) to visualize job progress.
+
+
+Required Installations:
+
+pip install pyqt5 pyqtgraph
+
+Run this script, and you'll get a stylish job monitoring dashboard. Let me know if you need any modifications!
+
